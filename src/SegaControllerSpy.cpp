@@ -72,7 +72,9 @@ word SegaControllerSpy::getState()
 void SegaControllerSpy::readCycle()
 {
 
+	Serial.println("Entering wait for state 2");
 	while (digitalRead(_selectPin) != LOW) {}
+	Serial.println("Exiting wait for state 2");
 
 	// Check that a controller is connected
     _currentState |= (digitalRead(_inputPins[2]) == LOW && digitalRead(_inputPins[3]) == LOW && !(digitalRead(_inputPins[0]) == LOW && digitalRead(_inputPins[1]) == LOW)) * SCS_CTL_ON;
@@ -90,9 +92,11 @@ void SegaControllerSpy::readCycle()
 		return;
 	}
 
+	Serial.println("Entering wait for state 3");
 	while (digitalRead(_selectPin) != HIGH) {}
-
-       
+	Serial.print("Exiting wait for state 3: ");
+    Serial.println(digitalRead(_selectPin) == LOW ? "0" : "1");
+	
     if (digitalRead(_inputPins[0]) == LOW) { _currentState |= SCS_BTN_UP; }
     if (digitalRead(_inputPins[1]) == LOW) { _currentState |= SCS_BTN_DOWN; }
     if (digitalRead(_inputPins[2]) == LOW) { _currentState |= SCS_BTN_LEFT; }
@@ -100,17 +104,29 @@ void SegaControllerSpy::readCycle()
     if (digitalRead(_inputPins[4]) == LOW) { _currentState |= SCS_BTN_B; }
     if (digitalRead(_inputPins[5]) == LOW) { _currentState |= SCS_BTN_C; }
         
+	Serial.println("Entering wait for state 4 or 6");
 	while (digitalRead(_selectPin) != LOW) {}
-
+	Serial.print("Exiting wait for state 4 or 6: ");
+    Serial.println(digitalRead(_selectPin) == LOW ? "0" : "1");
+	
 	if(digitalRead(_inputPins[2]) == LOW && digitalRead(_inputPins[3]) == LOW && !(digitalRead(_inputPins[0]) == LOW && digitalRead(_inputPins[1]) == LOW))
 	{
+		Serial.println("Entering wait for state 5");
 		while (digitalRead(_selectPin) != HIGH) {}
+		Serial.print("Exiting wait for state 5: ");
+		Serial.println(digitalRead(_selectPin) == LOW ? "0" : "1");
+		Serial.println("Entering wait for state 6");
 		while (digitalRead(_selectPin) != LOW) {}
+		Serial.print("Exiting wait for state 6: ");
+		Serial.println(digitalRead(_selectPin) == LOW ? "0" : "1");
 	}
 	
     if (digitalRead(_inputPins[0]) == LOW && digitalRead(_inputPins[1]) == LOW && digitalRead(_inputPins[2]) == LOW && digitalRead(_inputPins[3]) == LOW);
 	{
+		Serial.println("Entering wait for state 7");
 		while (digitalRead(_selectPin) != HIGH){}
+		Serial.print("Exiting wait for state 7: ");
+		Serial.println(digitalRead(_selectPin) == LOW ? "0" : "1");
            
         // Read input pins for X, Y, Z, Mode
         if (digitalRead(_inputPins[0]) == LOW) { _currentState |= SCS_BTN_Z; }
