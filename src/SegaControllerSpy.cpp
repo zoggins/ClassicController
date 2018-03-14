@@ -74,7 +74,8 @@ void SegaControllerSpy::readCycle()
 
 	Serial.println("Entering wait for state 2");
 	while (digitalRead(_selectPin) != LOW) {}
-	Serial.println("Exiting wait for state 2");
+	Serial.print("Exiting wait for state 2: ");
+    Serial.println(digitalRead(_selectPin) == LOW ? "0" : "1");
 
 	// Check that a controller is connected
     _currentState |= (digitalRead(_inputPins[2]) == LOW && digitalRead(_inputPins[3]) == LOW && !(digitalRead(_inputPins[0]) == LOW && digitalRead(_inputPins[1]) == LOW)) * SCS_CTL_ON;
