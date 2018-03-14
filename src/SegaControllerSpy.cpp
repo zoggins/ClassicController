@@ -43,7 +43,7 @@ SegaControllerSpy::SegaControllerSpy(byte db9_pin_7, byte db9_pin_1, byte db9_pi
     _inputPins[5] = db9_pin_9;
 
     // Setup the select pin
-    pinMode(_selectPin, INPUT);
+    pinMode(_selectPin, INPUT_PULLUP);
 
     // Setup input pins
     for (byte i = 0; i < SCS_INPUT_PINS; i++)
@@ -52,16 +52,6 @@ SegaControllerSpy::SegaControllerSpy(byte db9_pin_7, byte db9_pin_1, byte db9_pi
     }
 
     _currentState = 0;
-}
-
-inline int quickDigitalRead(uint8_t pin)
-{
-	if (pin > 7)
-	{
-		return PINB_READ(pin - 8);
-	}
-
-	return PIND_READ(pin);
 }
 
 word SegaControllerSpy::getState()
@@ -82,44 +72,51 @@ word SegaControllerSpy::getState()
 void SegaControllerSpy::readCycle()
 {
 
-	while (quickDigitalRead(_selectPin) != LOW);
+	while (digitalRead(_selectPin) != LOW) {}
 
 	// Check that a controller is connected
-    _currentState |= (quickDigitalRead(_inputPins[2]) == LOW && quickDigitalRead(_inputPins[3]) == LOW) * SCS_CTL_ON;
+    _currentState |= (digitalRead(_inputPins[2]) == LOW && digitalRead(_inputPins[3]) == LOW && !(digitalRead(_inputPins[0]) == LOW && digitalRead(_inputPins[1]) == LOW)) * SCS_CTL_ON;
             
     // Check controller is connected before reading A/Start to prevent bad reads when inserting/removing cable
     if (_currentState & SCS_CTL_ON)
     {
         // Read input pins for A, Start
-        if (quickDigitalRead(_inputPins[4]) == LOW) { _currentState |= SCS_BTN_A; }
-        if (quickDigitalRead(_inputPins[5]) == LOW) { _currentState |= SCS_BTN_START; }
+        if (digitalRead(_inputPins[4]) == LOW) { _currentState |= SCS_BTN_A; }
+        if (digitalRead(_inputPins[5]) == LOW) { _currentState |= SCS_BTN_START; }
     }
 	else
 	{
+		// No Sync
 		return;
 	}
 
-	while (quickDigitalRead(_selectPin) != HIGH);
+	while (digitalRead(_selectPin) != HIGH) {}
 
        
-    if (quickDigitalRead(_inputPins[0]) == LOW) { _currentState |= SCS_BTN_UP; }
-    if (quickDigitalRead(_inputPins[1]) == LOW) { _currentState |= SCS_BTN_DOWN; }
-    if (quickDigitalRead(_inputPins[2]) == LOW) { _currentState |= SCS_BTN_LEFT; }
-    if (quickDigitalRead(_inputPins[3]) == LOW) { _currentState |= SCS_BTN_RIGHT; }
-    if (quickDigitalRead(_inputPins[4]) == LOW) { _currentState |= SCS_BTN_B; }
-    if (quickDigitalRead(_inputPins[5]) == LOW) { _currentState |= SCS_BTN_C; }
+    if (digitalRead(_inputPins[0]) == LOW) { _currentState |= SCS_BTN_UP; }
+    if (digitalRead(_inputPins[1]) == LOW) { _currentState |= SCS_BTN_DOWN; }
+    if (digitalRead(_inputPins[2]) == LOW) { _currentState |= SCS_BTN_LEFT; }
+    if (digitalRead(_inputPins[3]) == LOW) { _currentState |= SCS_BTN_RIGHT; }
+    if (digitalRead(_inputPins[4]) == LOW) { _currentState |= SCS_BTN_B; }
+    if (digitalRead(_inputPins[5]) == LOW) { _currentState |= SCS_BTN_C; }
         
-	while (quickDigitalRead(_selectPin) != LOW);
+	while (digitalRead(_selectPin) != LOW) {}
 
-    if (quickDigitalRead(_inputPins[0]) == LOW && quickDigitalRead(_inputPins[1]) == LOW);
+	if(digitalRead(_inputPins[2]) == LOW && digitalRead(_inputPins[3]) == LOW && !(digitalRead(_inputPins[0]) == LOW && digitalRead(_inputPins[1]) == LOW))
 	{
-		while (quickDigitalRead(_selectPin) != HIGH);
+		while (digitalRead(_selectPin) != HIGH) {}
+		while (digitalRead(_selectPin) != LOW) {}
+	}
+	
+    if (digitalRead(_inputPins[0]) == LOW && digitalRead(_inputPins[1]) == LOW && digitalRead(_inputPins[2]) == LOW && digitalRead(_inputPins[3]) == LOW);
+	{
+		while (digitalRead(_selectPin) != HIGH){}
            
         // Read input pins for X, Y, Z, Mode
-        if (quickDigitalRead(_inputPins[0]) == LOW) { _currentState |= SCS_BTN_Z; }
-        if (quickDigitalRead(_inputPins[1]) == LOW) { _currentState |= SCS_BTN_Y; }
-        if (quickDigitalRead(_inputPins[2]) == LOW) { _currentState |= SCS_BTN_X; }
-        if (quickDigitalRead(_inputPins[3]) == LOW) { _currentState |= SCS_BTN_MODE; }
+        if (digitalRead(_inputPins[0]) == LOW) { _currentState |= SCS_BTN_Z; }
+        if (digitalRead(_inputPins[1]) == LOW) { _currentState |= SCS_BTN_Y; }
+        if (digitalRead(_inputPins[2]) == LOW) { _currentState |= SCS_BTN_X; }
+        if (digitalRead(_inputPins[3]) == LOW) { _currentState |= SCS_BTN_MODE; }
      
     }
 }
