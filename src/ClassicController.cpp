@@ -1,5 +1,5 @@
 //
-// ClassicController.h
+// ClassicController.cpp
 //
 // Author:
 //       Christopher Mallery <christopher.mallery@gmail.com>
