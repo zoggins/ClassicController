@@ -34,25 +34,19 @@ enum
     SCS_BTN_DOWN  = 4,
     SCS_BTN_LEFT  = 8,
     SCS_BTN_RIGHT = 16,
-    SCS_BTN_START = 32,
-    SCS_BTN_A     = 64,
-    SCS_BTN_B     = 128,
-    SCS_BTN_C     = 256,
-    SCS_BTN_X     = 512,
+    SCS_BTN_B     = 32,
+    SCS_BTN_C     = 64,
+    SCS_BTN_A     = 128,
+    SCS_BTN_START = 256,
+    SCS_BTN_Z     = 512,
     SCS_BTN_Y     = 1024,
-    SCS_BTN_Z     = 2048,
-    SCS_BTN_MODE  = 4096,
+    SCS_BTN_X     = 2048,
+    SCS_BTN_MODE  = 4096
 };
-
-const byte SCS_INPUT_PINS = 6;
-
-const byte SCS_CYCLES = 8;
-
-const unsigned long SC_READ_DELAY_MS = 5; // Must be >= 3 to give 6-button controller time to reset
 
 class SegaControllerSpy {
     public:
-        SegaControllerSpy(byte db9_pin_7, byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_6, byte db9_pin_9);
+        SegaControllerSpy();
 
         word getState();
 
@@ -60,9 +54,23 @@ class SegaControllerSpy {
         void readCycle();
 
         word _currentState;
-
-        byte _selectPin; // output select pin
-        byte _inputPins[SCS_INPUT_PINS];
+		
+		enum
+		{
+			SCS_CTL_ON_2C    = ~SCS_CTL_ON,
+			SCS_BTN_UP_2C    = ~SCS_BTN_UP,
+			SCS_BTN_DOWN_2C  = ~SCS_BTN_DOWN,
+			SCS_BTN_LEFT_2C  = ~SCS_BTN_LEFT,
+			SCS_BTN_RIGHT_2C = ~SCS_BTN_RIGHT,
+			SCS_BTN_B_2C     = ~SCS_BTN_B,
+			SCS_BTN_C_2C     = ~SCS_BTN_C,
+			SCS_BTN_A_2C     = ~SCS_BTN_A,
+			SCS_BTN_START_2C = ~SCS_BTN_START,
+			SCS_BTN_X_2C     = ~SCS_BTN_X,
+			SCS_BTN_Y_2C     = ~SCS_BTN_Y,
+			SCS_BTN_Z_2C     = ~SCS_BTN_Z,
+			SCS_BTN_MODE_2C  = ~SCS_BTN_MODE
+		};
 };
 
 #endif

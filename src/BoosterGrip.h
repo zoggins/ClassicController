@@ -44,7 +44,7 @@ const unsigned long BG_READ_DELAY_MS = 5;
 
 class BoosterGrip {
     public:
-        BoosterGrip(byte db9_pin_5, byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_6, byte db9_pin_9);
+        BoosterGrip(byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_5, byte db9_pin_6, db9_pin_9);
 
         word getState();
 
