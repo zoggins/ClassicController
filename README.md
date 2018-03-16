@@ -1,10 +1,10 @@
-# SegaController #
+# ClassicController #
 
-This is my fork of the Jon Thysell's SegaController project found at https://github.com/jonthysell/SegaController.  The primary purpose of this fork is to provide capabilities to my other project RetroSpy, which can be found at https://github.com/zoggins/RetroSpy.  My additions to this library are a passive monitor for a Sega Genesis controller, a standalone SMS/Atari joystick class and support for the Omega Race Booster Grip.
+This is my fork of the Jon Thysell's SegaController project found at https://github.com/jonthysell/SegaController.  The primary purpose of this fork is to provide capabilities to my other project RetroSpy, which can be found at https://github.com/zoggins/RetroSpy.  My additions to this library are a passive monitor for Sega Genesis controller activity, a standalone SMS/Atari/Commodore joystick class and support for the Omega Race Booster Grip.  On my todo list is the Atari Keyboard Controller, Atari paddles and Atari Driving Controller.
 
 ## Installation ##
 
-1. Download SegaController.zip from https://github.com/zoggins/SegaController/releases/latest
+1. Download SegaController.zip from https://github.com/zoggins/ClassicController/releases/latest
 2. Open the Arduino IDE
 3. Open "Sketch > Include Library > Add .ZIP Library..."
 4. Select the zip file you downloaded in step 1
