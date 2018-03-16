@@ -27,16 +27,15 @@
 #include "Arduino.h"
 #include "ClassicController.h"
 
-ClassicController::ClassicController(byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_5, byte db9_pin_6, byte db9_pin_9)
+ClassicController::ClassicController(byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_6, byte db9_pin_9)
 {
     // Set pins
     _inputPins[0] = db9_pin_1;
     _inputPins[1] = db9_pin_2;
     _inputPins[2] = db9_pin_3;
     _inputPins[3] = db9_pin_4;
-    _inputPins[4] = db9_pin_5;
-    _inputPins[5] = db9_pin_6;
-	_inputPins[6] = db9_pin_9;
+    _inputPins[4] = db9_pin_6;
+	_inputPins[5] = db9_pin_9;
 
     // Setup input pins
     for (byte i = 0; i < CC_INPUT_PINS; i++)
@@ -73,6 +72,8 @@ word ClassicController::getState()
 void ClassicController::readCycle()
 {
 	// Read input pins for Up, Down, Left, Right, 1, 2
+	while(_inputPins[2] == LOW && _inputPins[3] == LOW){}
+	
 	if (digitalRead(_inputPins[0]) == LOW) { _currentState |= CC_BTN_UP; }
 	if (digitalRead(_inputPins[1]) == LOW) { _currentState |= CC_BTN_DOWN; }
 	if (digitalRead(_inputPins[2]) == LOW) { _currentState |= CC_BTN_LEFT; }

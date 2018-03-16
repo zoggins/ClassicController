@@ -47,30 +47,7 @@ enum
 class SegaControllerSpy {
     public:
         SegaControllerSpy();
-
         word getState();
-
-    private:
-        void readCycle();
-
-        word _currentState;
-		
-		enum
-		{
-			SCS_CTL_ON_2C    = ~SCS_CTL_ON,
-			SCS_BTN_UP_2C    = ~SCS_BTN_UP,
-			SCS_BTN_DOWN_2C  = ~SCS_BTN_DOWN,
-			SCS_BTN_LEFT_2C  = ~SCS_BTN_LEFT,
-			SCS_BTN_RIGHT_2C = ~SCS_BTN_RIGHT,
-			SCS_BTN_B_2C     = ~SCS_BTN_B,
-			SCS_BTN_C_2C     = ~SCS_BTN_C,
-			SCS_BTN_A_2C     = ~SCS_BTN_A,
-			SCS_BTN_START_2C = ~SCS_BTN_START,
-			SCS_BTN_X_2C     = ~SCS_BTN_X,
-			SCS_BTN_Y_2C     = ~SCS_BTN_Y,
-			SCS_BTN_Z_2C     = ~SCS_BTN_Z,
-			SCS_BTN_MODE_2C  = ~SCS_BTN_MODE
-		};
 };
 
 #endif

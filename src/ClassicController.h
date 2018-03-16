@@ -37,13 +37,13 @@ enum
     CC_BTN_2     = 32
 };
 
-const byte CC_INPUT_PINS = 7;
+const byte CC_INPUT_PINS = 6;
 
 const unsigned long CC_READ_DELAY_MS = 5;
 
 class ClassicController {
     public:
-        ClassicController(byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_5, byte db9_pin_6, byte db9_pin_9);
+        ClassicController(byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_6, byte db9_pin_9);
 
         word getState();
 

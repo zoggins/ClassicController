@@ -38,23 +38,6 @@ SegaControllerSpy::SegaControllerSpy()
     {
         pinMode(i, INPUT_PULLUP);
     }
-
-    _currentState = 0;
-}
-
-word SegaControllerSpy::getState()
-{
-
-    noInterrupts();
-    //word _lastState = _currentState;
-
-    _currentState = 0xFFFF;
-
-     readCycle();
-    
-    interrupts();
-
-    return ~_currentState; // == 0 ? _lastState : _currentState;  // Kind of a hack to address the intermitted "disconnect"
 }
 
 #define MASK_PINS_FOUR_AND_FIVE 0x30
@@ -68,8 +51,8 @@ word SegaControllerSpy::getState()
 //#define TWOC_MASK_A_AND_START_CTRL 0b1111111001111110
 #define TWOC_MASK_UPLRBC 0xFF81
 //#define TWOC_MASK_UPLRBC 0b1111111110000001
-#define TWOC_MASK_XYXM 0xFFE1
-//#define TWOC_MASK_XYXM 0b1111111111100001
+#define TWOC_MASK_XYXM 0xE1FF
+//#define TWOC_MASK_XYXM 0b1110000111111111
 
 #define SHIFT_A_AND_START (TWOC_MASK_A_AND_START_CTRL | (PIND << 1))
 #define SHIFT_UDLRBC (TWOC_MASK_UPLRBC | (PIND >> 1))
@@ -82,45 +65,48 @@ word SegaControllerSpy::getState()
 #define STATE_FOUR_OR_SIX (PINB & 1) == 0 && (PIND & MASK_PINS_FOUR_AND_FIVE) == 0
 #define WAIT_FOR_STATE_FOUR_OR_SIX (PINB & 1) != 0 || (PIND & MASK_PINS_FOUR_AND_FIVE) != 0
 #define STATE_SIX (PINB & 1) == 0 && (PIND & MASK_PINS_TWO_THREE_FOUR_FIVE) == 0
-#define WAIT_FOR_STATE_SIX (PINB & 1) != 0 || (PIND & MASK_PINS_TWO_THREE_FOUR_FIVE) != 0
 #define NOT_STATE_SIX (PIND & MASK_PINS_TWO_THREE_FOUR_FIVE) != 0
 #define STATE_SEVEN (PINB & 1) == 1 && (PIND & MASK_PINS_TWO_THREE_FOUR_FIVE) != 0
-#define WAIT_FOR_STATE_SEVEN (PINB & 1) != 1 || (PIND & MASK_PINS_TWO_THREE_FOUR_FIVE) != 0
+#define WAIT_FOR_STATE_SEVEN (PINB & 1) != 1 || (PIND & MASK_PINS_TWO_THREE_FOUR_FIVE) == 0
 
-void SegaControllerSpy::readCycle()
+word SegaControllerSpy::getState()
 {
+    word currentState = 0xFFFF;
+	
+    noInterrupts();
+
 	do {
 	} while (WAIT_FOR_STATE_TWO);
-	_currentState &= SHIFT_A_AND_START;
+	currentState &= SHIFT_A_AND_START;
 
 	do {
 	} while (WAIT_FOR_STATE_THREE);
-	_currentState &= SHIFT_UDLRBC;
+	currentState &= SHIFT_UDLRBC;
  
 	// Six Button
-/* 	do {
-		pind = PIND;
+ 	do {
 	} while (WAIT_FOR_STATE_FOUR_OR_SIX);
 	
 	if (NOT_STATE_SIX)
 	{
-		_currentState &= SHIFT_A_AND_START;
+		currentState &= SHIFT_A_AND_START;
 
 		do {
-			pind = PIND;
 		} while (WAIT_FOR_STATE_THREE);
-		_currentState &= SHIFT_UDLRBC;
+		currentState &= SHIFT_UDLRBC;
 			
-		do {
-			pind = PIND;
-		} while (WAIT_FOR_STATE_SIX);		
+		do { 
+		} while (WAIT_FOR_STATE_FOUR_OR_SIX);
 	}
 	
-	do {
-		pind = PIND;
-	} while (WAIT_FOR_STATE_SEVEN);		
-	_currentState &= SHIFT_ZYXM;
-	
-	while (WAIT_FOR_STATE_EIGHT){} */
-	
+	if (STATE_SIX)
+	{
+		do {
+		} while (WAIT_FOR_STATE_SEVEN);		
+		currentState &= SHIFT_ZYXM;
+	}
+    
+    interrupts();
+
+    return ~currentState;
 }
