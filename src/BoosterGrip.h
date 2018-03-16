@@ -29,13 +29,13 @@
 
 enum
 {
-    BG_BTN_UP    = 2,
-    BG_BTN_DOWN  = 4,
-    BG_BTN_LEFT  = 8,
-    BG_BTN_RIGHT = 16,
-	BG_BTN_3	 = 64,
-    BG_BTN_1     = 128, // Master System compatibility
-    BG_BTN_2     = 256  // Master System compatibility
+    BG_BTN_UP    = 1,
+    BG_BTN_DOWN  = 2,
+    BG_BTN_LEFT  = 4,
+    BG_BTN_RIGHT = 8,
+    BG_BTN_1     = 16,
+    BG_BTN_2     = 32,
+	BG_BTN_3	 = 64
 };
 
 const byte BG_INPUT_PINS = 7;

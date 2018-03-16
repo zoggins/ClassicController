@@ -72,7 +72,7 @@ word ClassicController::getState()
 
 void ClassicController::readCycle()
 {
-	// Read input pins for Up, Down, Left, Right, B, C
+	// Read input pins for Up, Down, Left, Right, 1, 2
 	if (digitalRead(_inputPins[0]) == LOW) { _currentState |= CC_BTN_UP; }
 	if (digitalRead(_inputPins[1]) == LOW) { _currentState |= CC_BTN_DOWN; }
 	if (digitalRead(_inputPins[2]) == LOW) { _currentState |= CC_BTN_LEFT; }

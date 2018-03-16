@@ -29,12 +29,12 @@
 
 enum
 {
-    CC_BTN_UP    = 2,
-    CC_BTN_DOWN  = 4,
-    CC_BTN_LEFT  = 8,
-    CC_BTN_RIGHT = 16,
-    CC_BTN_1     = 128, // Master System compatibility
-    CC_BTN_2     = 256  // Master System compatibility
+    CC_BTN_UP    = 1,
+    CC_BTN_DOWN  = 2,
+    CC_BTN_LEFT  = 4,
+    CC_BTN_RIGHT = 8,
+    CC_BTN_1     = 16,
+    CC_BTN_2     = 32
 };
 
 const byte CC_INPUT_PINS = 7;
