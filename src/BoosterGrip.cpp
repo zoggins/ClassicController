@@ -27,7 +27,7 @@
 #include "Arduino.h"
 #include "BoosterGrip.h"
 
-BoosterGrip::BoosterGrip(byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_5, byte db9_pin_6, db9_pin_9)
+BoosterGrip::BoosterGrip(byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_5, byte db9_pin_6, byte db9_pin_9)
 {
     // Set pins
     _inputPins[0] = db9_pin_1;
@@ -81,7 +81,7 @@ void BoosterGrip::readCycle()
 	if (digitalRead(_inputPins[1]) == LOW) { _currentState |= BG_BTN_DOWN; }
 	if (digitalRead(_inputPins[2]) == LOW) { _currentState |= BG_BTN_LEFT; }
 	if (digitalRead(_inputPins[3]) == LOW) { _currentState |= BG_BTN_RIGHT; }
-	if (digitalRead(_inputPins[3]) == HIGH) { _currentState |= BG_BTN_3; }
+	if (digitalRead(_inputPins[4]) == HIGH) { _currentState |= BG_BTN_3; }
 	if (digitalRead(_inputPins[5]) == LOW)  { _currentState |= BG_BTN_1; }
 	if (digitalRead(_inputPins[6]) == HIGH) { _currentState |= BG_BTN_2; }
 }
