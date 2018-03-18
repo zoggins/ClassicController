@@ -31,7 +31,7 @@ SegaControllerSpy::SegaControllerSpy()
 {
     // Setup input pins
     // Assumes pin 8 is SELECT (DB9 pin 7)
-    // Assumes pins 2-7 are DB9 pins 1,2,3,4,6,7
+    // Assumes pins 2-7 are DB9 pins 1,2,3,4,6,9
     // DB9 pin 5 is +5V !!!DO NOT CONNECT TO THE ARDUINO!!!!
     // DB9 pin 8 is ground (connecting probably won't hurt, but its unnecessary to connect it to the Arduino)
     for (byte i = 2; i <= 8; i++)
