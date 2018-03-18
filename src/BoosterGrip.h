@@ -42,6 +42,9 @@ const byte BG_INPUT_PINS = 7;
 
 const unsigned long BG_READ_DELAY_MS = 5;
 
+// This class can be used as both a passive spy and as an active controller.  The only difference is you need to 
+// connect DB9 pin 8 to Ardunio Ground and DB9 pin 7 to +5V.  DO NOT connect power if you are passively spying. 
+
 class BoosterGrip {
     public:
         BoosterGrip(byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_5, byte db9_pin_6, byte db9_pin_9);
