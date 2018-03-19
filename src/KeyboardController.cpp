@@ -37,7 +37,7 @@ KeyboardController::KeyboardController()
     }
 
     // Setup input pins	
-	for (byte i = 6; i <= 8 i++)
+	for (byte i = 6; i <= 8; i++)
 	{
         pinMode(i, INPUT_PULLUP);
 	}
@@ -49,7 +49,7 @@ KeyboardController::KeyboardController()
 
 word KeyboardController::getState()
 {
-	if (max(millis() - _lastReadTime, 0) < BG_READ_DELAY_MS)
+	if (max(millis() - _lastReadTime, 0) < KC_READ_DELAY_MS)
     {
 		// Not enough time has elapsed, return previously read state
 		return _currentState;
@@ -75,7 +75,7 @@ word KeyboardController::getState()
 
 #define WAIT 500
 
-void KeyboardControllerSpy::readCycle()
+void KeyboardController::readCycle()
 {		
 	word currentValue = 0;	
 	
@@ -84,9 +84,9 @@ void KeyboardControllerSpy::readCycle()
 	{
 		asm volatile(MICROSECOND_NOPS);
 	}
-	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KCS_BTN_ONE;}
-	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KCS_BTN_TWO;}
-	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KCS_BTN_THREE;}
+	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KC_BTN_ONE;}
+	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KC_BTN_TWO;}
+	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KC_BTN_THREE;}
 	digitalWrite(2, HIGH);
 	
 	digitalWrite(3, LOW);
@@ -94,9 +94,9 @@ void KeyboardControllerSpy::readCycle()
 	{
 		asm volatile(MICROSECOND_NOPS);
 	}
-	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KCS_BTN_FOUR;}
-	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KCS_BTN_FIVE;}
-	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KCS_BTN_SIX;}	
+	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KC_BTN_FOUR;}
+	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KC_BTN_FIVE;}
+	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KC_BTN_SIX;}	
 	digitalWrite(3, HIGH);
 	
 	digitalWrite(4, LOW);
@@ -104,9 +104,9 @@ void KeyboardControllerSpy::readCycle()
 	{
 		asm volatile(MICROSECOND_NOPS);
 	}
-	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KCS_BTN_SEVEN;}
-	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KCS_BTN_EIGHT;}
-	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KCS_BTN_NINE;}	
+	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KC_BTN_SEVEN;}
+	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KC_BTN_EIGHT;}
+	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KC_BTN_NINE;}	
 	digitalWrite(4, HIGH);
 	
 	digitalWrite(5, LOW);
@@ -114,9 +114,9 @@ void KeyboardControllerSpy::readCycle()
 	{
 		asm volatile(MICROSECOND_NOPS);
 	}
-	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KCS_BTN_STAR;}
-	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KCS_BTN_ZERO;}
-	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KCS_BTN_POUND;}	
+	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KC_BTN_STAR;}
+	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KC_BTN_ZERO;}
+	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KC_BTN_POUND;}	
 	digitalWrite(5, HIGH);
 	
 	_currentState = currentValue;

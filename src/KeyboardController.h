@@ -43,8 +43,6 @@ enum
 	KC_BTN_POUND = 2048
 };
 
-const byte KC_INPUT_PINS = 7;
-
 const unsigned long KC_READ_DELAY_MS = 5;
 
 class KeyboardController {
@@ -59,8 +57,6 @@ class KeyboardController {
 		unsigned long _lastReadTime;
 		
         word _currentState;
-
-		unsigned long _lastReadTime;
 };
 
 #endif
