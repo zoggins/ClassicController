@@ -1,5 +1,8 @@
+// !!!!! THIS DOES NOT WORK !!!!!!!!!!
+// !!!!! Still working on this !!!!!!!
+
 //
-// KeyboardController.h
+// KeyboardControllerSpy.h
 //
 // Author:
 //       Christopher Mallery <christopher.mallery@gmail.com>
@@ -24,32 +27,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef KeyboardController_h
-#define KeyboardController_h
+#ifndef KeyboardControllerSpy_h
+#define KeyboardControllerSpy_h
 
 enum
 {
-    KC_BTN_ONE   = 1,
-    KC_BTN_TWO   = 2,
-    KC_BTN_THREE = 4,
-    KC_BTN_FOUR  = 8,
-    KC_BTN_FIVE  = 16,
-	KC_BTN_SIX   = 32,
-	KC_BTN_SEVEN = 64,	
-	KC_BTN_EIGHT = 128,
-	KC_BTN_NINE  = 256,
-	KC_BTN_STAR  = 512,
-	KC_BTN_ZERO  = 1024,
-	KC_BTN_POUND = 2048
+    KCS_BTN_ONE   = 1,
+    KCS_BTN_TWO   = 2,
+    KCS_BTN_THREE = 4,
+    KCS_BTN_FOUR  = 8,
+    KCS_BTN_FIVE  = 16,
+	KCS_BTN_SIX   = 32,
+	KCS_BTN_SEVEN = 64,	
+	KCS_BTN_EIGHT = 128,
+	KCS_BTN_NINE  = 256,
+	KCS_BTN_STAR  = 512,
+	KCS_BTN_ZERO  = 1024,
+	KCS_BTN_POUND = 2048
 };
 
-const byte KC_INPUT_PINS = 7;
+const byte KCS_INPUT_PINS = 7;
 
-const unsigned long KC_READ_DELAY_MS = 5;
+const unsigned long KCS_READ_DELAY_MS = 5;
 
-class KeyboardController {
+class KeyboardControllerSpy {
     public:
-        KeyboardController();
+        KeyboardControllerSpy();
 
         word getState();
 
@@ -59,8 +62,11 @@ class KeyboardController {
 		unsigned long _lastReadTime;
 		
         word _currentState;
+		bool readyToRead;
+		
+		unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
+unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
 
-		unsigned long _lastReadTime;
 };
 
 #endif

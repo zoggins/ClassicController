@@ -27,32 +27,40 @@
 #include "Arduino.h"
 #include "KeyboardController.h"
 
-static int cycle;
-
 KeyboardController::KeyboardController()
 {
-    // Setup input pins
-    for (byte i = 2; i <= 8; i++)
+	// Setup the output pins
+    for (byte i = 2; i <= 5; i++)
     {
-        pinMode(i, INPUT);
+		pinMode(i, OUTPUT);
+		digitalWrite(i, HIGH);
     }
+
+    // Setup input pins	
+	for (byte i = 6; i <= 8 i++)
+	{
+        pinMode(i, INPUT_PULLUP);
+	}
+	
 	_currentState = 0;
-	readyToRead = 0;
 }
 
-
 #define MICROSECOND_NOPS "nop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\nnop\n"
+
 word KeyboardController::getState()
 {
-/* 	if (max(millis() - _lastReadTime, 0) < KC_READ_DELAY_MS)
+	if (max(millis() - _lastReadTime, 0) < BG_READ_DELAY_MS)
     {
-        // Not enough time has elapsed, return previously read state
-        return _currentState;
-    }  */
+		// Not enough time has elapsed, return previously read state
+		return _currentState;
+    }
 	
     noInterrupts();
 	readCycle();
     interrupts();
+	
+	_lastReadTime = millis();
+	
     return _currentState;
 }
 
@@ -65,61 +73,51 @@ word KeyboardController::getState()
 #define MASK_ROW_THREE 0b00010000
 #define MASK_ROW_FOUR  0b00100000
 
-#define WAIT 300
+#define WAIT 500
 
-void KeyboardController::readCycle()
+void KeyboardControllerSpy::readCycle()
 {		
-	
 	word currentValue = 0;	
 	
-	// ROW 1
-	do {} while ((PIND & MASK_ROW_ONE) != 0 || (PIND & MASK_ROW_TWO) == 0 || (PIND & MASK_ROW_THREE) == 0 || (PIND & MASK_ROW_FOUR) == 0);
-	
+	digitalWrite(2, LOW);
 	for(int i = 0; i < WAIT; ++i)
 	{
 		asm volatile(MICROSECOND_NOPS);
 	}
-
-	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue = KC_BTN_THREE;}
-	else if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue = KC_BTN_TWO;}
-	else if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue = KC_BTN_ONE;}
+	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KCS_BTN_ONE;}
+	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KCS_BTN_TWO;}
+	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KCS_BTN_THREE;}
+	digitalWrite(2, HIGH);
 	
-	// ROW 2
-	do {} while ((PIND & MASK_ROW_ONE) == 0 || (PIND & MASK_ROW_TWO) != 0 || (PIND & MASK_ROW_THREE) == 0 || (PIND & MASK_ROW_FOUR) == 0);
-	
-		for(int i = 0; i < WAIT; ++i)
-	{
-		asm volatile(MICROSECOND_NOPS);
-	}
-	
-		     if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue = KC_BTN_SIX;}
-		else if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue = KC_BTN_FIVE;}
-		else if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue = KC_BTN_FOUR;}
-	
-	// ROW 3
-	do {} while ((PIND & MASK_ROW_ONE) == 0 || (PIND & MASK_ROW_TWO) == 0 || (PIND & MASK_ROW_THREE) != 0 || (PIND & MASK_ROW_FOUR) == 0);
-	
-		for(int i = 0; i < WAIT; ++i)
-	{
-		asm volatile(MICROSECOND_NOPS);
-	}
-	
-		     if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue = KC_BTN_NINE;}
-		else if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue = KC_BTN_EIGHT;}
-		else if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue = KC_BTN_SEVEN;}
-	
-	
-	// ROW 4
-	do {} while ((PIND & MASK_ROW_ONE) == 0 || (PIND & MASK_ROW_TWO) == 0 || (PIND & MASK_ROW_THREE) == 0 || (PIND & MASK_ROW_FOUR) != 0);
-	
+	digitalWrite(3, LOW);
 	for(int i = 0; i < WAIT; ++i)
 	{
 		asm volatile(MICROSECOND_NOPS);
 	}
+	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KCS_BTN_FOUR;}
+	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KCS_BTN_FIVE;}
+	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KCS_BTN_SIX;}	
+	digitalWrite(3, HIGH);
 	
-		     if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue = KC_BTN_POUND;}
-		else if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue = KC_BTN_ZERO;}
-		else if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue = KC_BTN_STAR;}
+	digitalWrite(4, LOW);
+	for(int i = 0; i < WAIT; ++i)
+	{
+		asm volatile(MICROSECOND_NOPS);
+	}
+	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KCS_BTN_SEVEN;}
+	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KCS_BTN_EIGHT;}
+	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KCS_BTN_NINE;}	
+	digitalWrite(4, HIGH);
+	
+	digitalWrite(5, LOW);
+	for(int i = 0; i < WAIT; ++i)
+	{
+		asm volatile(MICROSECOND_NOPS);
+	}
+	if ((PIND & MASK_COLUMN_ONE) == 0) {currentValue |= KCS_BTN_STAR;}
+	if ((PINB & MASK_COLUMN_TWO) == 0) {currentValue |= KCS_BTN_ZERO;}
+	if ((PIND & MASK_COLUMN_THREE) == 0) {currentValue |= KCS_BTN_POUND;}	
+	digitalWrite(5, HIGH);
 	
 	_currentState = currentValue;
 }
