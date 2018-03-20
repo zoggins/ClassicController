@@ -57,16 +57,17 @@ void sendState()
     {
         Serial.print((currentState & KC_BTN_ONE)    ? "1" : "-");
         Serial.print((currentState & KC_BTN_TWO)    ? "2" : "0");
-        Serial.print((currentState & KC_BTN_THREE)  ? "3" : "0");
-        Serial.print((currentState & KC_BTN_FOUR)  ? "4" : "0");
-        Serial.print((currentState & KC_BTN_FIVE) ? "5" : "0");
-        Serial.print((currentState & KC_BTN_SIX) ? "6" : "0");
-        Serial.print((currentState & KC_BTN_SEVEN)     ? "7" : "0");
-        Serial.print((currentState & KC_BTN_EIGHT)     ? "8" : "0");
-        Serial.print((currentState & KC_BTN_NINE)     ? "9" : "0");
-        Serial.print((currentState & KC_BTN_STAR)     ? "*" : "0");
-        Serial.print((currentState & KC_BTN_ZERO)     ? "0" : "0");
-        Serial.print((currentState & KC_BTN_POUND)     ? "#" : "0");
+        Serial.print((currentState & KC_BTN_TWO)    ? "2" : "-");
+        Serial.print((currentState & KC_BTN_THREE)  ? "3" : "-");
+        Serial.print((currentState & KC_BTN_FOUR)  ? "4" : "-");
+        Serial.print((currentState & KC_BTN_FIVE) ? "5" : "-");
+        Serial.print((currentState & KC_BTN_SIX) ? "6" : "-");
+        Serial.print((currentState & KC_BTN_SEVEN)     ? "7" : "-");
+        Serial.print((currentState & KC_BTN_EIGHT)     ? "8" : "-");
+        Serial.print((currentState & KC_BTN_NINE)     ? "9" : "-");
+        Serial.print((currentState & KC_BTN_STAR)     ? "*" : "-");
+        Serial.print((currentState & KC_BTN_ZERO)     ? "0" : "-");
+        Serial.print((currentState & KC_BTN_POUND)     ? "#" : "-");
 
         Serial.print("\n");
         lastState = currentState;
