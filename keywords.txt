@@ -8,10 +8,9 @@
 
 SegaController	KEYWORD1
 SegaControllerSpy	KEYWORD1
-ClassicController	KEYWORD1
-BoosterGrip	KEYWORD1
 KeyboardControllerSpy	KEYWORD1
-KeyboardController	KEYWORD1
+ClassicControllerSpy	KEYWORD1
+BoosterGripSpy	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)

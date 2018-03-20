@@ -1,6 +1,6 @@
 MIT License
 
-ClassicController Copyright © 2018 Christopher J. Mallery <http://www.zoggins.net>
+ClassicControllerSpy Copyright © 2018 Christopher J. Mallery <http://www.zoggins.net>
 SegaController Copyright © 2014 Jon Thysell <http://jonthysell.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
