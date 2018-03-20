@@ -33,17 +33,18 @@
 enum
 {
     KCS_BTN_ONE   = 1,
-    KCS_BTN_TWO   = 2,
-    KCS_BTN_THREE = 4,
+	KCS_BTN_THREE = 2,
+    KCS_BTN_TWO   = 4,
     KCS_BTN_FOUR  = 8,
-    KCS_BTN_FIVE  = 16,
-	KCS_BTN_SIX   = 32,
+  	KCS_BTN_SIX   = 16,
+	KCS_BTN_FIVE  = 32,
 	KCS_BTN_SEVEN = 64,	
-	KCS_BTN_EIGHT = 128,
-	KCS_BTN_NINE  = 256,
+	KCS_BTN_NINE  = 128,
+	KCS_BTN_EIGHT = 256,
 	KCS_BTN_STAR  = 512,
-	KCS_BTN_ZERO  = 1024,
-	KCS_BTN_POUND = 2048
+	KCS_BTN_POUND = 1024,
+	KCS_BTN_ZERO  = 2048
+
 };
 
 const byte KCS_INPUT_PINS = 7;
@@ -61,8 +62,10 @@ class KeyboardControllerSpy {
 
 		unsigned long _lastReadTime;
 		
-        word _currentState;
-		bool readyToRead;
+		byte _lastCompletedRow;
+		word _currentTotalState;
+        word _currentState[4];
+		byte _currentRow;
 		
 		unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
 unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
