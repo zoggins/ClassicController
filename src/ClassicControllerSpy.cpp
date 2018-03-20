@@ -1,5 +1,5 @@
 //
-// ClassicController.cpp
+// ClassicControllerSpySpy.cpp
 //
 // Author:
 //       Christopher Mallery <christopher.mallery@gmail.com>
@@ -25,9 +25,9 @@
 // THE SOFTWARE.
 
 #include "Arduino.h"
-#include "ClassicController.h"
+#include "ClassicControllerSpy.h"
 
-ClassicController::ClassicController(byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_6, byte db9_pin_9)
+ClassicControllerSpy::ClassicControllerSpy(byte db9_pin_1, byte db9_pin_2, byte db9_pin_3, byte db9_pin_4, byte db9_pin_6, byte db9_pin_9)
 {
     // Set pins
     _inputPins[0] = db9_pin_1;
@@ -47,7 +47,7 @@ ClassicController::ClassicController(byte db9_pin_1, byte db9_pin_2, byte db9_pi
     _lastReadTime = millis();
 }
 
-word ClassicController::getState()
+word ClassicControllerSpy::getState()
 {
     if (max(millis() - _lastReadTime, 0) < CC_READ_DELAY_MS)
     {
@@ -69,7 +69,7 @@ word ClassicController::getState()
     return _currentState;
 }
 
-void ClassicController::readCycle()
+void ClassicControllerSpy::readCycle()
 {
 	// Read input pins for Up, Down, Left, Right, 1, 2
 	while(_inputPins[2] == LOW && _inputPins[3] == LOW){}
