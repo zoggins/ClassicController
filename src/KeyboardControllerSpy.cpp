@@ -78,14 +78,13 @@ void KeyboardControllerSpy::readCycle()
 	
 	word currentPins = (PIND | (PINB << 8)) & 0b0000000111111100;
 	//_currentTotalState = currentPins;
-	///return;
+	//return;
 	
 	// ROW 1
-	if ((currentPins & 0b0000000000000100) != 0x4)
+	if ((currentPins & 0b0000000000111100) == 0x38)
 	{
 		if (_currentRow == 3)
 		{
-			_currentTotalState =128;
 			// Output Row 4's value
 			_currentState[0] = 	currentPins & 0b0000000111000000;	
 			_currentRow = 0;
@@ -93,66 +92,71 @@ void KeyboardControllerSpy::readCycle()
 		}
 		else if (_currentRow == 0)
 		{
-			_currentTotalState = 1;
+			//_currentTotalState = 1;
 			// set temp row 1 values	
-			_currentState[0] = 	currentPins & 0b0000000111000000;			
+			_currentState[0] = 	currentPins & 0b0000000111000000;	
+			//_currentTotalState = currentPins;			
 		}
 	}
 	
 	// ROW 2
-	else if ((currentPins & 0b0000000000001000) != 0x8)
+	else if ((currentPins & 0b0000000000111100) == 0x34)
 	{
 		if (_currentRow == 0)
 		{
-			_currentTotalState =256;
 			// Output Row 1's value
-			//_currentTotalState = (~_currentState[0] & 0b0000000111000000) >> 6 ;
+			_currentTotalState = (_currentTotalState & (~0b0000000000000111)) | ((~_currentState[0] >> 6) & 0b0000000000000111);
 			_currentState[1] = 	currentPins & 0b0000000111000000;	
 			_currentRow = 1;
 		}
 		else if (_currentRow == 1)
 		{
-			_currentTotalState = 2;
+			//_currentTotalState = 2;
 			// set temp row 2 values
 			_currentState[1] = 	currentPins & 0b0000000111000000;				
 		}
 	}
 	
 	// ROW 3
-	else if ((currentPins & 0b0000000000010000) != 0x10)
+	else if ((currentPins & 0b0000000000111100) != 0x2C)
 	{
 		if (_currentRow == 1)
-		{
-			_currentTotalState =512;
-			// Output Row 2's value
-			_currentState[2] = 	currentPins & 0b0000000111000000;	
-			_currentRow = 2;
+	 {
+			//_currentTotalState =1024;
+			//Output Row 2's value
+			//_currentTotalState = ((~_currentState[1] & 0b0000000111000000) >> 3) ;
+			 _currentTotalState = (_currentTotalState & (~0b0000000000111000)) | ((~_currentState[1] >> 3) & 0b0000000000111000);
+			 _currentState[2] = currentPins & 0b0000000111000000;	
+			 _currentRow = 2;
 		}
-		else if (_currentRow == 2)
-		{
-			_currentTotalState = 4;
-			// set temp row 3 values
-			_currentState[2] = 	currentPins & 0b0000000111000000;	
-		}
-	}
+		 else if (_currentRow == 2)
+		 {
+			//_currentTotalState = 4;
+			//set temp row 3 values
+			 //_currentState[2] = 	currentPins & 0b0000000111000000;	
+		 }
+	 }
 	
-	// ROW 4
-	else if ((currentPins & 0b0000000000100000) != 0x20)
-	{
-		if (_currentRow == 2)
-		{
-			_currentTotalState =1024;
-			// Output Row 3's value
-			_currentState[3] = 	currentPins & 0b0000000111000000;	
-			_currentRow = 3;
-		}
-		else if (_currentRow == 3)
-		{
-			_currentTotalState = 8;
+	//ROW 4
+	 else if ((currentPins & 0b0000000000111100) != 0x1C)
+	 {
+		 if (_currentRow == 2)
+		 {
+			 _currentTotalState = (_currentTotalState & (~0b0000000111000000)) | (~_currentState[2] & 0b0000000111000000);
+			//Output Row 3's value
+			 _currentState[3] = 	currentPins & 0b0000000111000000;	
+			 _currentRow = 3;
+		 }
+		 else if (_currentRow == 3)
+		 {
+			//_currentTotalState = 8;
 			// set temp row 4 values
-			_currentState[3] = 	currentPins & 0b0000000111000000;	
-		}		
-	}
+			 _currentState[3] = 	currentPins & 0b0000000111000000;	
+		 }		
+	 }
+	//else{
+	//	_currentTotalState = 0xFF;
+	//}
 	//word currentValue = 0;	
 	
 /* 	// ROW 1
