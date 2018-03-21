@@ -1,5 +1,5 @@
 //
-// BoosterGripSpySpy.h
+// BoosterGripSpy.cpp
 //
 // Author:
 //       Christopher Mallery <christopher.mallery@gmail.com>
